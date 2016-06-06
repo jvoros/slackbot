@@ -1,0 +1,7 @@
+{
+  "name": "slackbot",
+  "dependencies": {},
+  "globalDependencies": {
+    "require": "registry:dt/require#2.1.20+20160316155526"
+  }
+}

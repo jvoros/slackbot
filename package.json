@@ -2,9 +2,10 @@
   "name": "slackbot",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "ts-node index.ts"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,9 @@
   },
   "homepage": "https://github.com/AcademicLifeInEM/slackbot#readme",
   "dependencies": {
-    "botkit": "^0.2.0"
+    "botkit": "^0.2.0",
+    "ts-node": "^0.7.3",
+    "typescript": "^1.9.0-dev.20160605-1.0"
   },
   "devDependencies": {
     "eslint": "^2.11.1",
