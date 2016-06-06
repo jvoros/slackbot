@@ -1,2 +1,5 @@
 node_modules
-data/secrets.js
+data/secrets.ts
+typings/*
+!typings/botkit.d.ts
+!typings/slack.d.ts
