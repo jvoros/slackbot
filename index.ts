@@ -52,6 +52,10 @@ new Promise((resolve, reject) => {
     app.use('/', routes(slackbot));
     rootController(controller);
 
+    app.get('*', (req, res) => {
+        res.send('Invalid Endpoint');
+    });
+
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
     });
