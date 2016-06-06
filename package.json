@@ -20,6 +20,7 @@
   "homepage": "https://github.com/AcademicLifeInEM/slackbot#readme",
   "dependencies": {
     "botkit": "^0.2.0",
+    "express": "^4.13.4",
     "ts-node": "^0.7.3",
     "typescript": "^1.9.0-dev.20160605-1.0"
   },

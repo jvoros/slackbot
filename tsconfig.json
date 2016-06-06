@@ -17,6 +17,8 @@
     },
     "filesGlob": [
         "index.ts",
+        "server.ts",
+        "route.ts",
         "*/**/*.ts",
         "typings/**/*.d.ts"
     ],
@@ -32,9 +34,15 @@
     },
     "files": [
         "index.ts",
+        "bot/index.ts",
         "data/secrets.ts",
+        "routes/index.ts",
         "typings/botkit.d.ts",
-        "typings/globals/require/index.d.ts",
+        "typings/globals/express-serve-static-core/index.d.ts",
+        "typings/globals/express/index.d.ts",
+        "typings/globals/mime/index.d.ts",
+        "typings/globals/node/index.d.ts",
+        "typings/globals/serve-static/index.d.ts",
         "typings/index.d.ts",
         "typings/slack.d.ts"
     ]

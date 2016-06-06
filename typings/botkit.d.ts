@@ -40,7 +40,7 @@ declare namespace Botkit {
         startTyping(): void;
         replyWithTyping(): void;
         findConversation(): void;
-        say(): void;
+        say(msg: Message, callback?: (err: Error, res: any) => void): void;
 
         /**
          * Reply to a message
@@ -51,7 +51,7 @@ declare namespace Botkit {
         reply(message: Message, reply: string|Object, callback?: (Error, Object) => void): void;
 
         /** Starts the Slack Realtime Messaging service */
-        startRTM(): void;
+        startRTM(callback: (err: Error, bot: Bot) => void): void;
     }
 
     interface Config {
@@ -324,14 +324,14 @@ declare namespace Botkit {
     }
 
     interface Message {
-        type: string;
+        type?: string;
         channel: string;
-        user: string;
+        user?: string;
         text: string;
-        ts: string;
-        team: string;
-        event: string;
-        match: [string, {index: number}, {input: string}]; /** FIXME */
+        ts?: string;
+        team?: string;
+        event?: string;
+        match?: [string, {index: number}, {input: string}]; /** FIXME */
     }
 
     interface TeamInfo {

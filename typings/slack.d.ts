@@ -20,7 +20,7 @@ declare namespace Slack {
             join();
             kick();
             leave();
-            list();
+            list(obj: {}, cb: (err: Error, data: any) => void): void;
             mark();
             rename();
             setPurpose();
@@ -102,7 +102,7 @@ declare namespace Slack {
         users: {
             getPresence();
             info(arg: { user: string }, callback: (err: Error, response: { ok: boolean, user: User} ) => void ): void;
-            list();
+            list(obj: {}, cb: (err: Error, data: any) => void): void;
             setActive();
             setPresence();
         };
