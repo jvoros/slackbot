@@ -1,19 +1,16 @@
 import * as express from 'express';
+import * as bodyParser from 'body-parser';
 import routes from './routes';
 import rootController from './bot';
 const Botkit = require('botkit');
 const app = express();
 
-const PORT = process.env.PORT || 3000;
-const TOKEN = process.env.TOKEN;
+const PORT = process.env.PORT || 5000;
+const TOKEN = process.env.TOKEN || require('./data/secrets').TOKEN;
 const CHANNELS = {};
 const USERS = {};
 
-const controller: Botkit.Controller = Botkit.slackbot({
-    debug: false,
-    // include "log: false" to disable logging
-    // or a "logLevel" integer from 0 to 7 to adjust logging verbosity
-});
+const controller: Botkit.Controller = Botkit.slackbot({ debug: false });
 
 
 new Promise((resolve, reject) => {
@@ -47,9 +44,11 @@ new Promise((resolve, reject) => {
         });
     });
 })
-.then((slackbot: Botkit.Bot) => {
+.then((BOT: Botkit.Bot) => {
 
-    app.use('/', routes(slackbot));
+    app.use(bodyParser.json());
+
+    app.use('/', routes(BOT));
     rootController(controller);
 
     app.get('*', (req, res) => {
