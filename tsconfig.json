@@ -36,6 +36,7 @@
         "index.ts",
         "bot/index.ts",
         "data/secrets.ts",
+        "routes/aliemu/index.ts",
         "routes/index.ts",
         "typings/botkit.d.ts",
         "typings/globals/express-serve-static-core/index.d.ts",

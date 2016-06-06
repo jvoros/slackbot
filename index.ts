@@ -1,11 +1,11 @@
 import * as express from 'express';
-import { TOKEN } from './data/secrets';
-import route from './routes';
-import control from './bot';
+import routes from './routes';
+import rootController from './bot';
 const Botkit = require('botkit');
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+const TOKEN = process.env.TOKEN;
 const CHANNELS = {};
 const USERS = {};
 
@@ -25,7 +25,7 @@ new Promise((resolve, reject) => {
         const p1 = new Promise((res, rej) => {
             bot.api.channels.list({}, (e, resp) => {
                 resp.channels.forEach(c => {
-                    CHANNELS[c.name] = c.id;
+                    CHANNELS[c.name] = c;
                 });
                 res(true);
             });
@@ -35,7 +35,7 @@ new Promise((resolve, reject) => {
             bot.api.users.list({}, (e, resp) => {
                 resp.members.forEach(u => {
                     if (!u.deleted) {
-                        USERS[u.name] = u.id;
+                        USERS[u.name] = u;
                     }
                 });
                 res(true);
@@ -49,9 +49,8 @@ new Promise((resolve, reject) => {
 })
 .then((slackbot: Botkit.Bot) => {
 
-    app.use('/', route(slackbot));
-
-    control(controller);
+    app.use('/', routes(slackbot));
+    rootController(controller);
 
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);

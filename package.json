@@ -11,8 +11,11 @@
     "type": "git",
     "url": "git+https://github.com/AcademicLifeInEM/slackbot.git"
   },
+  "engines": {
+    "node": "6.2.0"
+  },
   "keywords": [],
-  "author": "",
+  "author": "Derek P Sifford",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/AcademicLifeInEM/slackbot/issues"
