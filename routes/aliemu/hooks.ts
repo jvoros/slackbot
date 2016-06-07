@@ -35,5 +35,51 @@ export default function route(bot: Botkit.Bot): express.Router {
         res.sendStatus(200);
     });
 
+
+    router.post('/travis-ci', (req, res) => {
+
+        const payload = JSON.parse(req.body.payload);
+        const color = payload.state === 'passed' ? 'good' : 'danger';
+
+        let mins = 0;
+        let seconds = payload.duration;
+
+        while (seconds > 60) {
+            mins++;
+            seconds -= 60;
+        }
+
+        const timestring: string = `(${mins} min ${seconds} sec)`;
+
+        const message: Botkit.AttachmentMessageNoContext = {
+            channel: CHANNEL_ID,
+            attachments: [
+                {
+                    fallback: `Build status: ${payload.status_message}`,
+                    color,
+                    text: `Build <${payload.build_url}|#${payload.number}> (<${payload.compare_url}|${payload.commit_id}>) of \`${payload.repository.owner_name}/${payload.repository.name}@${payload.branch}\``,
+                    author_name: 'Travis CI',
+                    author_icon: 'http://tattoocoder.com/content/images/2015/11/travis-logo.png',
+                    fields: [
+                        {
+                            title: 'Status',
+                            value: `*${payload.state}* ${timestring}`,
+                            short: true,
+                        },
+                        {
+                            title: 'Commit By',
+                            value: `${payload.committer_name}`,
+                            short: true,
+                        },
+                    ],
+                    mrkdwn_in: ['text', 'fields'],
+                },
+            ],
+        };
+
+        bot.say(message);
+        res.sendStatus(200);
+    });
+
     return router;
 }
