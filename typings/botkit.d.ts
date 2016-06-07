@@ -40,7 +40,7 @@ declare namespace Botkit {
         startTyping(): void;
         replyWithTyping(): void;
         findConversation(): void;
-        say(msg: Message, callback?: (err: Error, res: any) => void): void;
+        say(msg: AttachmentMessageNoContext|TextMessageNoContext, callback?: (err: Error, res: any) => void): void;
 
         /**
          * Reply to a message
@@ -325,13 +325,24 @@ declare namespace Botkit {
 
     interface Message {
         type?: string;
-        channel: string;
+        channel?: string;
         user?: string;
-        text: string;
+        text?: string;
+        attachments?: Slack.Attachment[];
         ts?: string;
         team?: string;
         event?: string;
         match?: [string, {index: number}, {input: string}]; /** FIXME */
+    }
+
+    interface AttachmentMessageNoContext extends Message {
+        channel: string;
+        attachments: Slack.Attachment[];
+    }
+
+    interface TextMessageNoContext extends Message {
+        channel: string;
+        text: string;
     }
 
     interface TeamInfo {
