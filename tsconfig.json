@@ -35,6 +35,8 @@
     "files": [
         "index.ts",
         "bot/index.ts",
+        "data/secrets.ts",
+        "routes/aliemu/hooks.ts",
         "routes/aliemu/index.ts",
         "routes/index.ts",
         "typings/botkit.d.ts",

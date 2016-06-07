@@ -47,6 +47,7 @@ new Promise((resolve, reject) => {
 .then((BOT: Botkit.Bot) => {
 
     app.use(bodyParser.json());
+    app.use(bodyParser.urlencoded({extended: false}));
 
     app.use('/', routes(BOT));
     rootController(controller);
