@@ -1,6 +1,17 @@
 
 declare namespace Slack {
 
+    type MessageEvent = 'ambient'|'message_received'|'direct_mention'|'direct_message'|'mention';
+    /**
+     * Enum of user levels
+     * ura     = single channel guest
+     * ra      = multi-channel guest
+     * regular = regular user
+     * admin   = admin user
+     * owner   = team owner
+     */
+    type UserLevel = 'ura'|'ra'|'regular'|'admin'|'owner';
+
     interface API {
         api_url: 'https://slack.com/api/';
         callAPI();
@@ -150,16 +161,17 @@ declare namespace Slack {
         is_restricted: boolean;
         is_ultra_restricted: boolean;
         is_bot: boolean;
-        has_2fa: boolean;
+        presence: string;
+        has_2fa?: boolean;
     }
 
-    interface Message {
-        text?: string;
-        username?: string;
-        /** Parse markdown? */
-        mrkdwn?: boolean;
-        attachments?: Attachment[];
-    }
+    // interface Message {
+    //     text?: string;
+    //     username?: string;
+    //     /** Parse markdown? */
+    //     mrkdwn?: boolean;
+    //     attachments?: Attachment[];
+    // }
 
     interface Attachment {
         /** Required plain-text summary of the attachment */
@@ -222,43 +234,278 @@ declare namespace Slack {
         mrkdwn_in?: ('text'|'pretext'|'fields')[];
     }
 
+    interface Identity {
+        id: string;
+        name: string;
+        prefs: {
+            // highlight_words: '',
+            // user_colors: '',
+            // color_names_in_list: true,
+            // growls_enabled: true,
+            // tz: null,
+            // push_dm_alert: true,
+            // push_mention_alert: true,
+            // msg_replies: '{ "flexpane":false }',
+            // push_everything: false,
+            // push_idle_wait: 2,
+            // push_sound: 'b2.mp3',
+            // push_loud_channels: '',
+            // push_mention_channels: '',
+            // push_loud_channels_set: '',
+            // email_alerts: 'instant',
+            // email_alerts_sleep_until: 0,
+            // email_misc: true,
+            // email_weekly: true,
+            // welcome_message_hidden: false,
+            // all_channels_loud: false,
+            // loud_channels: '',
+            // never_channels: '',
+            // loud_channels_set: '',
+            // show_member_presence: true,
+            // search_sort: 'timestamp',
+            // expand_inline_imgs: true,
+            // expand_internal_inline_imgs: true,
+            // expand_snippets: false,
+            // posts_formatting_guide: true,
+            // seen_welcome_2: false,
+            // seen_ssb_prompt: false,
+            // spaces_new_xp_banner_dismissed: false,
+            // search_only_my_channels: false,
+            // emoji_mode: 'default',
+            // emoji_use: '',
+            // has_invited: false,
+            // has_uploaded: false,
+            // has_created_channel: false,
+            // search_exclude_channels: '',
+            // messages_theme: 'default',
+            // webapp_spellcheck: true,
+            // no_joined_overlays: false,
+            // no_created_overlays: false,
+            // dropbox_enabled: false,
+            // seen_domain_invite_reminder: false,
+            // seen_member_invite_reminder: false,
+            // mute_sounds: false,
+            // arrow_history: false,
+            // tab_ui_return_selects: true,
+            // obey_inline_img_limit: true,
+            // new_msg_snd: 'knock_brush.mp3',
+            // require_at: true,
+            // ssb_space_window: '',
+            // mac_ssb_bounce: '',
+            // mac_ssb_bullet: true,
+            // expand_non_media_attachments: true,
+            // show_typing: true,
+            // pagekeys_handled: true,
+            // last_snippet_type: '',
+            // display_real_names_override: 0,
+            // display_preferred_names: true,
+            // time24: false,
+            // enter_is_special_in_tbt: false,
+            // graphic_emoticons: false,
+            // convert_emoticons: true,
+            // autoplay_chat_sounds: true,
+            // ss_emojis: true,
+            // sidebar_behavior: '',
+            // seen_onboarding_start: false,
+            // onboarding_cancelled: false,
+            // seen_onboarding_slackbot_conversation: false,
+            // seen_onboarding_channels: false,
+            // seen_onboarding_direct_messages: false,
+            // seen_onboarding_invites: false,
+            // seen_onboarding_search: false,
+            // seen_onboarding_recent_mentions: false,
+            // seen_onboarding_starred_items: false,
+            // seen_onboarding_private_groups: false,
+            // onboarding_slackbot_conversation_step: 0,
+            // dnd_enabled: false,
+            // dnd_start_hour: '22:00',
+            // dnd_end_hour: '08:00',
+            // mark_msgs_read_immediately: true,
+            // start_scroll_at_oldest: true,
+            // snippet_editor_wrap_long_lines: false,
+            // ls_disabled: false,
+            // sidebar_theme: 'default',
+            // sidebar_theme_custom_values: '',
+            // f_key_search: false,
+            // k_key_omnibox: true,
+            // speak_growls: false,
+            // mac_speak_voice: 'com.apple.speech.synthesis.voice.Alex',
+            // mac_speak_speed: 250,
+            // comma_key_prefs: false,
+            // at_channel_suppressed_channels: '',
+            // push_at_channel_suppressed_channels: '',
+            // prompted_for_email_disabling: false,
+            // full_text_extracts: false,
+            // no_text_in_notifications: false,
+            // muted_channels: '',
+            // no_macssb1_banner: false,
+            // no_macssb2_banner: false,
+            // no_winssb1_banner: false,
+            // no_omnibox_in_channels: false,
+            // k_key_omnibox_auto_hide_count: 0,
+            // hide_user_group_info_pane: false,
+            // mentions_exclude_at_user_groups: false,
+            // privacy_policy_seen: true,
+            // search_exclude_bots: false,
+            // load_lato_2: false,
+            // fuller_timestamps: false,
+            // last_seen_at_channel_warning: 0,
+            // flex_resize_window: false,
+            // msg_preview: false,
+            // msg_preview_displaces: true,
+            // msg_preview_persistent: true,
+            // emoji_autocomplete_big: false,
+            // winssb_run_from_tray: true,
+            // winssb_window_flash_behavior: 'idle',
+            // two_factor_auth_enabled: false,
+            // two_factor_type: null,
+            // two_factor_backup_type: null,
+            // enhanced_debugging: false,
+            // mentions_exclude_at_channels: true,
+            // confirm_clear_all_unreads: true,
+            // confirm_user_marked_away: true,
+            // box_enabled: false,
+            // seen_single_emoji_msg: false,
+            // confirm_sh_call_start: true,
+            // preferred_skin_tone: '',
+            // show_all_skin_tones: false,
+            // separate_private_channels: false,
+            // whats_new_read: 1465163646,
+            // hotness: false,
+            // frecency_jumper: '',
+            // jumbomoji: true,
+            // no_flex_in_history: true,
+            // newxp_seen_last_message: 0,
+            // attachments_with_borders: false,
+            // sticky_unread_divider: false,
+            // priority_sort: false,
+            // custom_channel_sort: '',
+            // a11y_font_size: 'normal'
+        }; /** TODO */
+        created: number;
+        manual_presence: string;
+    }
+
+    interface TeamInfo {
+        id: string;
+        name: string;
+        email_domain: string;
+        domain: string;
+        msg_edit_window_mins: number;
+        prefs: TeamInfoPrefs;
+        icon: {
+            [id: string]: string;
+        };
+        over_storage_limit: boolean;
+        plan: string;
+        over_integrations_limit: boolean;
+    }
+
+    interface TeamInfoPrefs {
+        default_channels: Object;
+        display_real_names: boolean;
+        posts_migrating: number;
+        allow_calls: boolean;
+        hide_referers: boolean;
+        msg_edit_window_mins: number;
+        allow_message_deletion: boolean;
+        who_can_at_everyone: Slack.UserLevel;
+        who_can_at_channel: Slack.UserLevel;
+        who_can_create_channels: Slack.UserLevel;
+        who_can_archive_channels: Slack.UserLevel;
+        who_can_create_groups: Slack.UserLevel;
+        who_can_post_general: Slack.UserLevel;
+        who_can_kick_channels: Slack.UserLevel;
+        who_can_kick_groups: Slack.UserLevel;
+        retention_type: number;
+        retention_duration: number;
+        group_retention_type: number;
+        group_retention_duration: number;
+        dm_retention_type: number;
+        dm_retention_duration: number;
+        file_retention_duration: number;
+        file_retention_type: number;
+        allow_retention_override: boolean;
+        require_at_for_mention: boolean;
+        default_rxns: Object;
+        team_handy_rxns: Object;
+        channel_handy_rxns: Object;
+        compliance_export_start: number;
+        warn_before_at_channel: 'always';
+        disallow_public_file_urls: boolean;
+        who_can_create_delete_user_groups: Slack.UserLevel;
+        who_can_edit_user_groups: Slack.UserLevel;
+        who_can_change_team_profile: Slack.UserLevel;
+        allow_shared_channels: boolean;
+        who_has_team_visibility: Slack.UserLevel;
+        invites_only_admins: boolean;
+        disable_file_uploads: 'allow_all';
+        who_can_create_shared_channels: Slack.UserLevel;
+        who_can_post_in_shared_channels: Object;
+        allow_shared_channel_perms_override: boolean;
+        dnd_enabled: boolean;
+        dnd_start_hour: string; // HH:MM
+        dnd_end_hour: string; // HH:MM
+        auth_mode: string;
+        who_can_manage_integrations: Object;
+    }
+
+    interface Channel {
+        id: string;
+        name: string;
+        is_channel: boolean;
+        created: number;
+        creator: string;
+        is_archived: boolean;
+        is_general: boolean;
+        has_pins: boolean;
+        is_member: boolean;
+    }
+
+    interface IMS {
+        id: string;
+        user: string;
+        created: number;
+        is_im: boolean;
+        is_orig_shared: boolean;
+        has_pins: boolean;
+        /** Slack timestamp: 1010101010.101010 */
+        last_read: string;
+        /** Slack timestamp: 1010101010.101010 */
+        latest: string;
+        is_open: boolean;
+    }
+
+    interface Bot {
+        id: string;
+        deleted: boolean;
+        name: string;
+        icons: any;
+    }
+
+    interface RTMPayload {
+        ok: boolean;
+        cache_ts: number;
+        cache_version: string;
+        cache_ts_version: string;
+        url: string;
+        self: Identity;
+        team: TeamInfo;
+        subteams: {
+            self: any[];
+            all: any[];
+        };
+        dnd: {
+            dnd_enabled: boolean;
+            next_dnd_start_ts: number;
+            next_dnd_end_ts: number;
+            snooze_enabled: boolean;
+        };
+        channels: Channel[];
+        ims: IMS[];
+        users: User[];
+        bots: Bot[];
+        groups: any[];
+    }
+
 }
-
-
-/*
-{
-    "attachments": [
-        {
-            "fallback": "Required plain-text summary of the attachment.",
-
-            "color": "#36a64f",
-
-            "pretext": "Optional text that appears above the attachment block",
-
-            "author_name": "Bobby Tables",
-            "author_link": "http://flickr.com/bobby/",
-            "author_icon": "http://flickr.com/icons/bobby.jpg",
-
-            "title": "Slack API Documentation",
-            "title_link": "https://api.slack.com/",
-
-            "text": "Optional text that appears within the attachment",
-
-            "fields": [
-                {
-                    "title": "Priority",
-                    "value": "High",
-                    "short": false
-                }
-            ],
-
-            "image_url": "http://my-website.com/path/to/image.jpg",
-            "thumb_url": "http://example.com/path/to/thumb.png",
-
-            "footer": "Slack API",
-            "footer_icon": "https://platform.slack-edge.com/img/default_application_icon.png",
-            "ts": 123456789
-        }
-    ]
-}
- */

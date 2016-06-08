@@ -31,27 +31,24 @@ export default function route(bot: Botkit.Bot): express.Router {
                     mrkdwn_in: ['text'],
                 },
             ],
-        });
+        } as Botkit.MessageWithoutContext);
         res.sendStatus(200);
     });
 
 
     router.post('/travis-ci', (req, res) => {
-
         const payload = JSON.parse(req.body.payload);
         const color = payload.state === 'passed' ? 'good' : 'danger';
 
         let mins = 0;
         let seconds = payload.duration;
-
         while (seconds > 60) {
             mins++;
             seconds -= 60;
         }
-
         const timestring: string = `(${mins} min ${seconds} sec)`;
 
-        const message: Botkit.AttachmentMessageNoContext = {
+        const message: Botkit.MessageWithoutContext = {
             channel: CHANNEL_ID,
             attachments: [
                 {

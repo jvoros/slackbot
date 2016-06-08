@@ -4,3 +4,4 @@ data
 typings/*
 !typings/botkit.d.ts
 !typings/slack.d.ts
+!typings/aliem.d.ts

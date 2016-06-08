@@ -39,6 +39,7 @@
         "routes/aliemu/hooks.ts",
         "routes/aliemu/index.ts",
         "routes/index.ts",
+        "typings/aliem.d.ts",
         "typings/botkit.d.ts",
         "typings/globals/body-parser/index.d.ts",
         "typings/globals/express-serve-static-core/index.d.ts",

@@ -12,45 +12,25 @@ const USERS = {};
 
 const controller: Botkit.Controller = Botkit.slackbot({ debug: false });
 
-
-new Promise((resolve, reject) => {
-    controller.spawn({
-        token: TOKEN,
-    }).startRTM((err, bot) => {
-        if (err) reject(err);
-
-        const p1 = new Promise((res, rej) => {
-            bot.api.channels.list({}, (e, resp) => {
-                resp.channels.forEach(c => {
-                    CHANNELS[c.name] = c;
-                });
-                res(true);
-            });
-        });
-
-        const p2 = new Promise((res, rej) => {
-            bot.api.users.list({}, (e, resp) => {
-                resp.members.forEach(u => {
-                    if (!u.deleted) {
-                        USERS[u.name] = u;
-                    }
-                });
-                res(true);
-            });
-        });
-
-        Promise.all([p1, p2]).then(() => {
-            resolve(bot);
-        });
-    });
+controller.spawn({
+    token: TOKEN,
 })
-.then((BOT: Botkit.Bot) => {
+.startRTM((err, bot, payload) => {
+    if (err) return console.error(err);
+
+    payload.channels
+        .filter(c => !c.is_archived)
+        .forEach(c => CHANNELS[c.name] = c);
+
+    payload.users
+        .filter(u => !u.deleted)
+        .forEach(u => USERS[u.id] = u);
 
     app.use(bodyParser.json());
     app.use(bodyParser.urlencoded({extended: false}));
 
-    app.use('/', routes(BOT));
-    rootController(controller);
+    app.use('/', routes(bot));
+    rootController(controller, USERS);
 
     app.get('*', (req, res) => {
         res.send('Invalid Endpoint');
@@ -59,5 +39,4 @@ new Promise((resolve, reject) => {
     app.listen(PORT, () => {
         console.log(`Server listening on port ${PORT}`);
     });
-
 });
