@@ -6,9 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "SLACK_TOKEN=$(cat data/TOKEN) ts-node index.ts",
-    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then typings install && tsc -p .; else exit 0; fi;",
+    "postinstall": "if [ $NODE_ENV ]; then exit 0; else typings install && tsc -p .; fi;",
     "deploy": "git fetch && git pull && tsc -p .",
-    "build": "if [ -n $(docker ps -q) ]; then docker kill $(docker ps -q); fi && if [ -n $(docker ps -aq) ]; then docker rm -v $(docker ps -aq); fi && docker build -t slackbot . && docker run --name slackbot -e SLACK_TOKEN -d -v $(pwd)/dist:/app/dist slackbot"
+    "build": "if [ $(docker ps -q) ]; then docker kill $(docker ps -q); fi && if [ $(docker ps -aq) ]; then docker rm -v $(docker ps -aq); fi && docker build -t slackbot . && docker run --name slackbot -e SLACK_TOKEN -d -v $(pwd)/dist:/app/dist slackbot"
   },
   "repository": {
     "type": "git",
