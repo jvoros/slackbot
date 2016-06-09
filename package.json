@@ -5,8 +5,10 @@
   "main": "index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "ts-node index.ts",
-    "postinstall": "typings install"
+    "dev": "SLACK_TOKEN=$(cat data/TOKEN) ts-node index.ts",
+    "postinstall": "if [ \"$NODE_ENV\" != \"production\" ]; then typings install && tsc -p .; else exit 0; fi;",
+    "deploy": "git fetch && git pull && tsc -p .",
+    "build": "if [ -n $(docker ps -q) ]; then docker kill $(docker ps -q); fi && if [ -n $(docker ps -aq) ]; then docker rm -v $(docker ps -aq); fi && docker build -t slackbot . && docker run --name slackbot -e SLACK_TOKEN -d -v $(pwd)/dist:/app/dist slackbot"
   },
   "repository": {
     "type": "git",
@@ -25,10 +27,7 @@
   "dependencies": {
     "body-parser": "^1.15.1",
     "botkit": "^0.2.0",
-    "express": "^4.13.4",
-    "ts-node": "^0.8.0",
-    "typescript": "^1.9.0-dev.20160605-1.0",
-    "typings": "^1.0.4"
+    "express": "^4.13.4"
   },
   "devDependencies": {
     "eslint": "^2.11.1",
@@ -36,6 +35,9 @@
     "eslint-config-airbnb-base": "^3.0.1",
     "eslint-plugin-import": "^1.8.1",
     "eslint-plugin-jsx-a11y": "^1.3.0",
-    "eslint-plugin-react": "^5.1.1"
+    "eslint-plugin-react": "^5.1.1",
+    "ts-node": "^0.8.0",
+    "typescript": "^1.9.0-dev.20160605-1.0",
+    "typings": "^1.0.4"
   }
 }

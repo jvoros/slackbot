@@ -1,5 +1,5 @@
 export default function(controller: Botkit.Controller, users: UserList): Botkit.Controller {
-    controller.hears([/hello/i, /hi/i, /hey/i], ['direct_mention'], (bot, message) => {
+    controller.hears([/hello/i, /hi/i, /hey/i], ['direct_mention', 'direct_message'], (bot, message) => {
         bot.api.users.info({ user: message.user }, (err, res) => {
             if (err) return;
             bot.reply(message, `Testing! Hello ${res.user.real_name}`);
@@ -8,7 +8,7 @@ export default function(controller: Botkit.Controller, users: UserList): Botkit.
 
 
     // Appear.in Integration Replacement
-    controller.hears(['appear.in'], ['direct_mention', 'direct_message'], (bot, message) => {
+    controller.hears(['appear.in'], ['direct_mention'], (bot, message) => {
         const user = users[message.user].name;
 
         bot.startConversation(message, (err, convo) => {

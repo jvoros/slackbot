@@ -1,0 +1,5 @@
+apps:
+    - name: slackbot
+      script: dist/index.js
+      watch:
+          - dist

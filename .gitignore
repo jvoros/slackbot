@@ -1,6 +1,8 @@
 node_modules
 data
 .env
+dist
+npm-debug.log
 typings/*
 !typings/botkit.d.ts
 !typings/slack.d.ts

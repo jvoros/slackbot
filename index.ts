@@ -6,7 +6,7 @@ const Botkit = require('botkit');
 const app = express();
 
 const PORT = process.env.PORT || 5000;
-const TOKEN = process.env.TOKEN || require('./data/secrets').TOKEN;
+const TOKEN = process.env.SLACK_TOKEN;
 const CHANNELS = {};
 const USERS = {};
 
