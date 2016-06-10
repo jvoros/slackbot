@@ -5,10 +5,6 @@ const CHANNEL_ID = 'G0KM9J46P';
 export default function route(bot: Botkit.Bot): express.Router {
 
     router.post('/draft-submit', (req, res) => {
-
-        console.log(req);
-        console.log(req.body);
-
         bot.say({
             channel: CHANNEL_ID,
             attachments: [
