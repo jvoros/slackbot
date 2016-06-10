@@ -43,5 +43,25 @@ export default function route(bot: Botkit.Bot): express.Router {
         });
     });
 
+    router.post('/copyeditor-submit', (req, res) => {
+
+        if (!req.body.title || req.body.url) return res.sendStatus(400);
+
+        bot.say({
+            channel: CHANNEL_ID,
+            attachments: [
+                {
+                    fallback: `${req.body.title} has cleared copyediting and has been submitted for peer review`,
+                    color: '#00B092',
+                    text: `*<${req.body.url}|${req.body.title}>* has cleared copyediting and has been submitted for peer review`,
+                    mrkdwn_in: ['text'],
+                },
+            ],
+        } as Botkit.MessageWithoutContext, (err, resp) => {
+            if (err) return res.sendStatus(503);
+            res.sendStatus(200);
+        });
+    });
+
     return router;
 }
