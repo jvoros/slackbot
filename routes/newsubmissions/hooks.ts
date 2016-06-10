@@ -45,7 +45,7 @@ export default function route(bot: Botkit.Bot): express.Router {
 
     router.post('/copyeditor-submit', (req, res) => {
 
-        if (!req.body.title || req.body.url) return res.sendStatus(400);
+        if (!req.body.title || !req.body.url) return res.sendStatus(400);
 
         bot.say({
             channel: CHANNEL_ID,
