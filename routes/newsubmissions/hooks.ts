@@ -34,7 +34,7 @@ export default function route(bot: Botkit.Bot): express.Router {
                             short: true,
                         },
                     ],
-                    footer: 'Note: The draft URL will not work unless you are logged in.',
+                    footer: 'Note: The draft URL will not work unless you are logged in. | <https://paper.dropbox.com/doc/ALiEM-Copyeditor-Instructions-HSCqUig374uB35LR3wn53|Click here to view instructions>',
                 },
             ],
         } as Botkit.MessageWithoutContext, (err, resp) => {
