@@ -38,6 +38,7 @@
         "bot/index.ts",
         "routes/aliemu/hooks.ts",
         "routes/aliemu/index.ts",
+        "routes/aliemu/messages.ts",
         "routes/index.ts",
         "routes/newsubmissions/hooks.ts",
         "routes/newsubmissions/index.ts",
