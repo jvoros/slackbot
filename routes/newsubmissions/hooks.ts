@@ -3,8 +3,12 @@ const router = express.Router();
 const CHANNEL_ID = 'G0KM9J46P';
 
 export default function route(bot: Botkit.Bot): express.Router {
-
     router.post('/draft-submit', (req, res) => {
+        if (!req.body.title || !req.body.draftUrl || !req.body.copyeditor || !req.body.author) {
+            res.sendStatus(400);
+            console.log('==> Bad request');
+            return;
+        };
         bot.say({
             channel: CHANNEL_ID,
             attachments: [
