@@ -6,6 +6,9 @@ export default function route(bot: Botkit.Bot): express.Router {
 
     router.post('/contact-form', (req, res) => {
         const { name, email, message } = req.body.data;
+        console.log(req.body);
+        console.log(req.body.data);
+        console.log(req.body.data.name);
         if (!name || !email || !message) return res.sendStatus(400);
         bot.say({
             channel: CHANNEL_ID,
