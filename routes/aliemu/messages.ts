@@ -41,7 +41,7 @@ export default function route(bot: Botkit.Bot): express.Router {
     router.post('/comments', (req, res) => {
         const { name, email, content, postUrl, postName } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         console.log(name, email, content, postUrl, postName);
-        if (!name || !email || !content, !postUrl, !postName) return res.sendStatus(400);
+        if (!name || !email || !content || !postUrl || !postName) return res.sendStatus(400);
         bot.say({
             channel: CHANNEL_ID,
             text: `Comment Received: *<${postUrl}|${postName}>*`,
