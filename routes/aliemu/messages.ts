@@ -11,7 +11,7 @@ export default function route(bot: Botkit.Bot): express.Router {
             channel: CHANNEL_ID,
             attachments: [
                 {
-                    fallback: `Contact form message from ${name}: ${message} -- Email: {email}`,
+                    fallback: `Contact form message from ${name}: ${message} -- Email: ${email}`,
                     title: 'Message Received from Contact Us Form',
                     fields: [
                         {
@@ -21,13 +21,47 @@ export default function route(bot: Botkit.Bot): express.Router {
                         },
                         {
                             title: 'Email Address',
-                            value: `${email}`,
+                            value: `<mailto:${email}|${email}>`,
                             short: true,
                         },
                         {
                             title: 'Message',
                             value: `${message}`,
                             short: false,
+                        },
+                    ],
+                },
+            ],
+        } as Botkit.MessageWithoutContext, (err, resp) => {
+            if (err) return res.sendStatus(503);
+            res.sendStatus(200);
+        });
+    });
+
+    router.post('/comments', (req, res) => {
+        const { name, email, content, postUrl, postName } = req.body.data;
+        if (!name || !email || !content, !postUrl, !postName) return res.sendStatus(400);
+        bot.say({
+            channel: CHANNEL_ID,
+            text: `Comment Received: *<${postUrl}|${postName}>*`,
+            attachments: [
+                {
+                    fallback: `Comment from ${name} <${email}> on ${postName}: ${content}`,
+                    fields: [
+                        {
+                            title: 'Comment',
+                            value: `${content}`,
+                            short: false,
+                        },
+                        {
+                            title: 'From',
+                            value: `${name}`,
+                            short: true,
+                        },
+                        {
+                            title: 'Email Address',
+                            value: `<mailto:${email}|${email}>`,
+                            short: true,
                         },
                     ],
                 },
