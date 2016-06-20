@@ -43,7 +43,7 @@ export default function route(bot: Botkit.Bot): express.Router {
     router.post('/comments', (req, res) => {
         console.log(req);
         console.log(req.body);
-        console.log(req.body.data);
+        console.log(req.body.data); 
         const { name, email, content, postUrl, postName } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !email || !content || !postUrl || !postName) return res.sendStatus(400);
         bot.say({
