@@ -18,13 +18,14 @@
     },
     "filesGlob": [
         "index.ts",
-        "server.ts",
-        "route.ts",
-        "*/**/*.ts",
-        "typings/**/*.d.ts"
+        "bot/**/*.ts",
+        "routes/**/*.ts",
+        "typings/aliem.d.ts",
+        "typings/botkit.d.ts",
+        "typings/slack.d.ts",
+        "node_modules/@types/**/*index.d.ts"
     ],
     "exclude": [
-        "node_modules",
         "typings/browser",
         "typings/browser.d.ts"
     ],
@@ -44,13 +45,12 @@
         "routes/newsubmissions/index.ts",
         "typings/aliem.d.ts",
         "typings/botkit.d.ts",
-        "typings/globals/body-parser/index.d.ts",
-        "typings/globals/express-serve-static-core/index.d.ts",
-        "typings/globals/express/index.d.ts",
-        "typings/globals/mime/index.d.ts",
-        "typings/globals/node/index.d.ts",
-        "typings/globals/serve-static/index.d.ts",
-        "typings/index.d.ts",
-        "typings/slack.d.ts"
+        "typings/slack.d.ts",
+        "node_modules/@types/body-parser/index.d.ts",
+        "node_modules/@types/express-serve-static-core/index.d.ts",
+        "node_modules/@types/express/index.d.ts",
+        "node_modules/@types/mime/index.d.ts",
+        "node_modules/@types/node/index.d.ts",
+        "node_modules/@types/serve-static/index.d.ts"
     ]
 }

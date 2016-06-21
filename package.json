@@ -26,10 +26,16 @@
   },
   "homepage": "https://github.com/AcademicLifeInEM/slackbot#readme",
   "dependencies": {
+    "@types/body-parser": "0.0.23-alpha",
+    "@types/express": "^4.0.23-alpha",
+    "@types/express-serve-static-core": "^4.0.22-alpha",
+    "@types/mime": "0.0.22-alpha",
+    "@types/node": "^4.0.22-alpha",
+    "@types/serve-static": "^1.7.21-alpha",
     "body-parser": "^1.15.1",
     "botkit": "^0.2.0",
-    "typescript": "^1.9.0-dev.20160605-1.0",
-    "express": "^4.13.4"
+    "express": "^4.13.4",
+    "typescript": "^1.9.0-dev.20160605-1.0"
   },
   "devDependencies": {
     "eslint": "^2.11.1",
