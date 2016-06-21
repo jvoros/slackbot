@@ -75,18 +75,20 @@ export default function route(bot: Botkit.Bot): express.Router {
     });
 
     router.post('dashboard-access', (req, res) => {
-        /*
-        "name" => $_POST['first_name-' . $formid] . $_POST['last_name-' . $formid],
-                "username" => $username,
-                "email" => $_POST['user_email-' . $formid],
-                "program" => $_POST['residency_us_em'],
-                "role" => $_POST['role'] == 'em-resident' ? 'Resident' : 'Faculty',
-                "bio"
-         */
-        console.log(req.body);
         console.log('hello');
+        console.log(req.body);
         res.sendStatus(200);
     });
 
     return router;
 }
+
+
+/*
+"name" => $_POST['first_name-' . $formid] . $_POST['last_name-' . $formid],
+        "username" => $username,
+        "email" => $_POST['user_email-' . $formid],
+        "program" => $_POST['residency_us_em'],
+        "role" => $_POST['role'] == 'em-resident' ? 'Resident' : 'Faculty',
+        "bio"
+ */
