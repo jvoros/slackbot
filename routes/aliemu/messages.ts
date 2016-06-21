@@ -74,9 +74,10 @@ export default function route(bot: Botkit.Bot): express.Router {
         });
     });
 
-    router.post('dashboard-access', (req, res) => {
+    router.post('/dashboard-access', (req, res) => {
         console.log('hello');
         console.log(req.body);
+        console.log(req.body.data);
         res.sendStatus(200);
     });
 
