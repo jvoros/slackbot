@@ -84,7 +84,7 @@ export default function route(bot: Botkit.Bot): express.Router {
                 "bio"
          */
         console.log(req.body);
-        console.log(req.body.data);
+        console.log('hello');
         res.sendStatus(200);
     });
 
