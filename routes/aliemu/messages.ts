@@ -75,21 +75,48 @@ export default function route(bot: Botkit.Bot): express.Router {
     });
 
     router.post('/dashboard-access', (req, res) => {
-        console.log('hello');
         const { name, username, email, program, role, bio } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
-        console.log(name, username, email, program, role, bio);
-        res.sendStatus(200);
+        if (!name || !username || !email || !program || !role) return res.sendStatus(400);
+        bot.say({
+            channel: CHANNEL_ID,
+            text: `User Requesting Dashboard Access: *${username}*`,
+            attachments: [
+                {
+                    fallback: `User Requesting Dashboard Access: ${name} <${email}>`,
+                    fields: [
+                        {
+                            title: 'Name',
+                            value: `${name}`,
+                            short: false,
+                        },
+                        {
+                            title: 'Email Address',
+                            value: `<mailto:${email}|${email}>`,
+                            short: false,
+                        },
+                        {
+                            title: 'Program',
+                            value: `${program}`,
+                            short: false,
+                        },
+                        {
+                            title: 'Role',
+                            value: `${role}`,
+                            short: false,
+                        },
+                        {
+                            title: 'Bio',
+                            value: `${bio}`,
+                            short: false,
+                        },
+                    ],
+                },
+            ],
+        } as Botkit.MessageWithoutContext, (err, resp) => {
+            if (err) return res.sendStatus(503);
+            res.sendStatus(200);
+        });
     });
 
     return router;
 }
-
-
-/*
-"name" => $_POST['first_name-' . $formid] . $_POST['last_name-' . $formid],
-        "username" => $username,
-        "email" => $_POST['user_email-' . $formid],
-        "program" => $_POST['residency_us_em'],
-        "role" => $_POST['role'] == 'em-resident' ? 'Resident' : 'Faculty',
-        "bio"
- */
