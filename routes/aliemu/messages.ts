@@ -41,9 +41,6 @@ export default function route(bot: Botkit.Bot): express.Router {
     });
 
     router.post('/comments', (req, res) => {
-        console.log(req);
-        console.log(req.body);
-        console.log(req.body.data);
         const { name, email, content, postUrl, postName } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !email || !content || !postUrl || !postName) return res.sendStatus(400);
         bot.say({
@@ -75,6 +72,20 @@ export default function route(bot: Botkit.Bot): express.Router {
             if (err) return res.sendStatus(503);
             res.sendStatus(200);
         });
+    });
+
+    router.post('dashboard-access', (req, res) => {
+        /*
+        "name" => $_POST['first_name-' . $formid] . $_POST['last_name-' . $formid],
+                "username" => $username,
+                "email" => $_POST['user_email-' . $formid],
+                "program" => $_POST['residency_us_em'],
+                "role" => $_POST['role'] == 'em-resident' ? 'Resident' : 'Faculty',
+                "bio"
+         */
+        console.log(req.body);
+        console.log(req.body.data);
+        res.sendStatus(200);
     });
 
     return router;
