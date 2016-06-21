@@ -76,8 +76,8 @@ export default function route(bot: Botkit.Bot): express.Router {
 
     router.post('/dashboard-access', (req, res) => {
         console.log('hello');
-        console.log(req.body);
-        console.log(req.body.data);
+        const { name, username, email, program, role, bio } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
+        console.log(name, username, email, program, role, bio);
         res.sendStatus(200);
     });
 
