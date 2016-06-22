@@ -23,6 +23,8 @@ function counter(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
     const val = parseInt(msg.actions[0].value);
     const count = parseInt(msg.original_message.attachments[0].text);
+    console.log(msg.original_message.attachments[0]);
+    console.log(msg.original_message.attachments[0].text);
     console.log(val, count);
     msg.original_message.attachments[0].text = `${count + val}`;
 
