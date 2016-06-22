@@ -12,7 +12,8 @@ const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const CHANNELS = {};
 const USERS = {};
 
-process.env.MY_HOST = 'localhost';
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
 
 const controller: Botkit.Controller = Botkit.slackbot({
     debug: false,
@@ -24,39 +25,66 @@ controller.configureSlackApp({
     scopes: ['bot'],
 });
 
-controller.createOauthEndpoints(app, (err, req, res) => {
-    if (err) {
-      res.status(500).send('ERROR: ' + err);
-    } else {
-      res.send('Success!');
-    }
+
+controller.createOauthEndpoints(app, (Err, Req, Res) => {
+    if (Err) return Res.status(500).send('ERROR: ' + Err);
+
+    console.log(Req);
+    Res.send('Success!');
+
+    controller.spawn({
+        token: TOKEN,
+    })
+    .startRTM((err, bot, payload) => {
+        if (err) return console.error(err);
+
+        payload.channels
+            .filter(c => !c.is_archived)
+            .forEach(c => CHANNELS[c.name] = c);
+
+        payload.users
+            .filter(u => !u.deleted)
+            .forEach(u => USERS[u.id] = u);
+
+        app.use('/', routes(bot));
+        rootController(controller, USERS);
+
+        app.get('*', (req, res) => {
+            res.send('Invalid Endpoint');
+        });
+
+        // app.listen(PORT, () => {
+        //     console.log(`Server listening on port ${PORT}`);
+        // });
+    });
 });
 
-controller.spawn({
-    token: TOKEN,
-})
-.startRTM((err, bot, payload) => {
-    if (err) return console.error(err);
+// controller.spawn({
+//     token: TOKEN,
+// })
+// .startRTM((err, bot, payload) => {
+//     if (err) return console.error(err);
+//
+//     payload.channels
+//         .filter(c => !c.is_archived)
+//         .forEach(c => CHANNELS[c.name] = c);
+//
+//     payload.users
+//         .filter(u => !u.deleted)
+//         .forEach(u => USERS[u.id] = u);
+//
+//     app.use('/', routes(bot));
+//     rootController(controller, USERS);
+//
+//     app.get('*', (req, res) => {
+//         res.send('Invalid Endpoint');
+//     });
+//
+//     // app.listen(PORT, () => {
+//     //     console.log(`Server listening on port ${PORT}`);
+//     // });
+// });
 
-    payload.channels
-        .filter(c => !c.is_archived)
-        .forEach(c => CHANNELS[c.name] = c);
-
-    payload.users
-        .filter(u => !u.deleted)
-        .forEach(u => USERS[u.id] = u);
-
-    app.use(bodyParser.json());
-    app.use(bodyParser.urlencoded({extended: false}));
-
-    app.use('/', routes(bot));
-    rootController(controller, USERS);
-
-    app.get('*', (req, res) => {
-        res.send('Invalid Endpoint');
-    });
-
-    app.listen(PORT, () => {
-        console.log(`Server listening on port ${PORT}`);
-    });
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
 });
