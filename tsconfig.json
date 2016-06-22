@@ -25,10 +25,6 @@
         "typings/slack.d.ts",
         "node_modules/@types/**/*index.d.ts"
     ],
-    "exclude": [
-        "typings/browser",
-        "typings/browser.d.ts"
-    ],
     "compileOnSave": false,
     "buildOnSave": false,
     "atom": {
@@ -43,6 +39,7 @@
         "routes/index.ts",
         "routes/newsubmissions/hooks.ts",
         "routes/newsubmissions/index.ts",
+        "routes/slack/index.ts",
         "typings/aliem.d.ts",
         "typings/botkit.d.ts",
         "typings/slack.d.ts",

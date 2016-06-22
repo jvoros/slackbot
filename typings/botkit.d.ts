@@ -124,9 +124,9 @@ declare namespace Botkit {
 
 
         changeEars(): any;
-        configureSlackApp(): any;
+        configureSlackApp(config: Slack.AppConfig): void;
         createHomepageEndpoint(): any;
-        createOauthEndpoints(): any;
+        createOauthEndpoints(server: any, callback: (err: Error, req: any, res: any) => void): any;
         createWebhookEndpoints(): any;
         debug(): void;
         defineBot(): any;

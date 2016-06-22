@@ -35,6 +35,33 @@ export default function(controller: Botkit.Controller, users: UserList): Botkit.
         };
     });
 
+    controller.hears(['testing'], ['direct_mention', 'direct_message'], (bot, message) => {
+        bot.reply(message, {
+            attachments: [
+                {
+                    fallback: '',
+                    title: 'Do you want to interact with my buttons?',
+                    callback_id: '123',
+                    attachment_type: 'default',
+                    actions: [
+                        {
+                            'name': 'yes',
+                            'text': 'Yes',
+                            'value': 'yes',
+                            'type': 'button',
+                        },
+                        {
+                            'name': 'no',
+                            'text': 'No',
+                            'value': 'no',
+                            'type': 'button',
+                        },
+                    ],
+                },
+            ],
+        });
+    });
+
 
     return controller;
 }

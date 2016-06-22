@@ -12,6 +12,51 @@ declare namespace Slack {
      */
     type UserLevel = 'ura'|'ra'|'regular'|'admin'|'owner';
 
+    type Scope = 'incoming-webhook'
+        | 'commands'
+        | 'bot'
+        | 'users:read'
+        | 'channels:write'
+        | 'channels:history'
+        | 'channels:read'
+        | 'chat:write:bot'
+        | 'chat:write:user'
+        | 'dnd:write'
+        | 'dnd:read'
+        | 'emoji:read'
+        | 'files:write:user'
+        | 'files:read'
+        | 'groups:write'
+        | 'groups:history'
+        | 'groups:read'
+        | 'im:write'
+        | 'im:history'
+        | 'im:read'
+        | 'mpim:write'
+        | 'mpim:history'
+        | 'mpim:read'
+        | 'pins:write'
+        | 'pins:read'
+        | 'reactions:write'
+        | 'reactions:read'
+        | 'reminders:write'
+        | 'reminders:read'
+        | 'search:read'
+        | 'stars:write'
+        | 'stars:read'
+        | 'team:read'
+        | 'usergroups:write'
+        | 'usergroups:read'
+        | 'identity.basic'
+        | 'users:write';
+
+    interface AppConfig {
+        clientId: string;
+        clientSecret: string;
+        redirectUri?: string;
+        scopes: Scope[];
+    }
+
     interface API {
         api_url: 'https://slack.com/api/';
         callAPI();
@@ -178,6 +223,10 @@ declare namespace Slack {
         fallback: string;
         /** Hex color string (including #) OR "good", "warning", or "danger" */
         color?: string;
+        /** ID for callback (if using message buttons) */
+        callback_id?: string;
+        /** Used with message buttons -- not sure what this does FIXME */
+        attachment_type?: 'default';
         /** Optional text that appears above the attachment block */
         pretext?: string;
         /** Small text used to display the author's name. */
@@ -208,6 +257,33 @@ declare namespace Slack {
             value: string;
             /** An optional flag indicating whether the value is short enough to be displayed side-by-side with other values. */
             short: boolean;
+        }[];
+
+        actions?: {
+            /**
+             * Provide a string to give this specific action a name. The name will be returned
+             *   to your Action URL along with the message's callback_id when this action is invoked.
+             *   Use it to identify this particular response path. If multiple actions share the same name,
+             *   only one of them can be in a triggered state.
+             */
+            name: string;
+            /** The user-facing label for the message button representing this action. Cannot contain markup. Best to keep these short and decisive. */
+            text: string;
+            /** Provide nothing but button here. There are no other types of actions today. */
+            type: 'button';
+            /**
+             * Provide a string identifying this specific action. It will be sent to your
+             *   Action URL along with the name and attachment's callback_id. If providing multiple actions
+             *   with the same name, value can be strategically used to differentiate intent.
+             */
+            value?: string;
+            style?: 'default'|'primary'|'danger';
+            /**
+             * 	If you provide a JSON hash of confirmation fields, your button will pop
+             * 	  up dialog with your indicated text and choices, giving them one last chance
+             * 	  to avoid a destructive action or other undesired outcome.
+             */
+            confirm?: string;
         }[];
 
         /** URL to an image file that will be displayed inside a message attachment. GIF, JPEG, PNG, or BMP */
