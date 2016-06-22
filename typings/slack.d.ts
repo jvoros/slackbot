@@ -220,7 +220,7 @@ declare namespace Slack {
 
     interface Attachment {
         /** Required plain-text summary of the attachment */
-        fallback: string;
+        fallback?: string;
         /** Hex color string (including #) OR "good", "warning", or "danger" */
         color?: string;
         /** ID for callback (if using message buttons) */

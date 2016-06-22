@@ -37,26 +37,39 @@ export default function(controller: Botkit.Controller, users: UserList): Botkit.
         };
     });
 
-    controller.hears(['testing'], ['direct_mention', 'direct_message'], (bot, message) => {
+    controller.hears(['counter'], ['direct_mention', 'direct_message'], (bot, message) => {
         bot.reply(message, {
             attachments: [
                 {
-                    fallback: '',
-                    title: 'Do you want to interact with my buttons?',
-                    callback_id: '123',
+                    title: 'Simple Counter',
+                    text: '0',
+                    callback_id: '1',
                     attachment_type: 'default',
                     actions: [
                         {
-                            'name': 'yes',
-                            'text': 'Yes',
-                            'value': 'yes',
-                            'type': 'button',
+                            name: 'counter',
+                            text: 'Increment',
+                            value: '1',
+                            type: 'button',
                         },
                         {
-                            'name': 'no',
-                            'text': 'No',
-                            'value': 'no',
-                            'type': 'button',
+                            name: 'counter',
+                            text: 'Decrement',
+                            value: '-1',
+                            type: 'button',
+                        },
+                        {
+                            name: 'destroy',
+                            text: 'Destroy Counter',
+                            style: 'danger',
+                            value: 'destroy',
+                            type: 'button',
+                            confirm: {
+                                title: 'Are you sure?',
+                                text: 'This will do something!',
+                                ok_text: 'Yes',
+                                dismiss_text: 'No',
+                            },
                         },
                     ],
                 },

@@ -3,6 +3,7 @@ declare namespace Botkit {
 
     type MessageWithContext = Msg.AttachmentMessage|Msg.TextMessage|(Msg.AttachmentMessage & Msg.TextMessage);
     type MessageWithoutContext = Msg.AttachmentMessageNoContext|Msg.TextMessageNoContext|(Msg.AttachmentMessageNoContext & Msg.TextMessageNoContext);
+    type ActionMessage = Msg.ActionMessage;
 
     type ConvoCallback = (error: Error, conversation: Conversation) => void;
 
@@ -26,7 +27,7 @@ declare namespace Botkit {
         startPrivateConversation(): void;
         startConversation(src: Message, callback: ConvoCallback): void;
         send(): void;
-        replyInteractive(src: Message, reply: MessageWithContext): void;
+        replyInteractive(src: ActionMessage, reply: MessageWithContext): void;
         replyPublic(src: Message, reply: string|MessageWithContext, callback?: Function): void;
         replyPublicDelayed(src: Message, reply: string|MessageWithContext, callback?: Function): void;
         replyPrivate(src: Message, reply: string|MessageWithContext, callback?: Function): void;
@@ -202,6 +203,19 @@ declare namespace Botkit {
         }
         interface TextMessageNoContext extends TextMessage {
             channel: string;
+        }
+        interface ActionMessage extends Basic {
+            actions: {
+                name: string;
+                value: string;
+            }[];
+            callback_id: string;
+            action_ts: string;
+            attachment_id: string;
+            token: string;
+            original_message: AttachmentMessage|TextMessage;
+            response_url: string;
+            payload: JSON;
         }
     }
 
