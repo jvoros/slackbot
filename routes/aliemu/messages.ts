@@ -5,8 +5,6 @@ const CHANNEL_ID = 'C09762GTV'; // #aliemu
 export default function route(bot: Botkit.Bot): express.Router {
 
     router.post('/contact-form', (req, res) => {
-        console.log(req.body);
-        console.log(req.body.data);
         const { name, email, message } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !email || !message) return res.sendStatus(400);
         bot.say({
