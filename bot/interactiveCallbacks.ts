@@ -13,6 +13,8 @@ export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit
 
 function counter(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
+    console.log(msg);
+
     if (msg.actions[0].name === 'destroy') {
         return bot.replyInteractive(msg, {
             text: 'Counter Destroyed.',
@@ -21,6 +23,7 @@ function counter(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
     const val = parseInt(msg.actions[0].value);
     const count = parseInt(msg.original_message.attachments[0].text);
+    console.log(val, count);
     msg.original_message.attachments[0].text = `${count + val}`;
 
     bot.replyInteractive(msg, msg.original_message);
