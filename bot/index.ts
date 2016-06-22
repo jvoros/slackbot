@@ -2,7 +2,6 @@ import interactiveCallbacks from './interactiveCallbacks';
 
 export default function(controller: Botkit.Controller, users: UserList): Botkit.Controller {
     controller.hears([/hello/i, /hi/i, /hey/i], ['direct_mention', 'direct_message'], (bot, message) => {
-        console.log(message);
         bot.api.users.info({ user: message.user }, (err, res) => {
             if (err) return;
             bot.reply(message, `Testing! Hello ${res.user.real_name}`);

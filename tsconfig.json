@@ -40,7 +40,6 @@
         "routes/index.ts",
         "routes/newsubmissions/hooks.ts",
         "routes/newsubmissions/index.ts",
-        "routes/slack/index.ts",
         "typings/aliem.d.ts",
         "typings/botkit.d.ts",
         "typings/slack.d.ts",
