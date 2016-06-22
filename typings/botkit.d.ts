@@ -26,6 +26,7 @@ declare namespace Botkit {
         startPrivateConversation(): void;
         startConversation(src: Message, callback: ConvoCallback): void;
         send(): void;
+        replyInteractive(src: Message, reply: MessageWithContext): void;
         replyPublic(src: Message, reply: string|MessageWithContext, callback?: Function): void;
         replyPublicDelayed(src: Message, reply: string|MessageWithContext, callback?: Function): void;
         replyPrivate(src: Message, reply: string|MessageWithContext, callback?: Function): void;
@@ -127,7 +128,7 @@ declare namespace Botkit {
         configureSlackApp(config: Slack.AppConfig): void;
         createHomepageEndpoint(): any;
         createOauthEndpoints(server: any, callback: (err: Error, req: any, res: any) => void): any;
-        createWebhookEndpoints(): any;
+        createWebhookEndpoints(server: any): Controller;
         debug(): void;
         defineBot(): any;
         findTeamById(): any;
@@ -135,7 +136,7 @@ declare namespace Botkit {
         handleSlackEvents(): any;
         hears_regexp(): any;
         hears_test(): any;
-        on(): any;
+        on(a: any, b: any): any;
         receiveMessage(): any;
         saveTeam(): any;
         setupWebserver(): any;

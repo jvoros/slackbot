@@ -283,7 +283,12 @@ declare namespace Slack {
              * 	  up dialog with your indicated text and choices, giving them one last chance
              * 	  to avoid a destructive action or other undesired outcome.
              */
-            confirm?: string;
+            confirm?: {
+                title: string;
+                text: string;
+                ok_text: string;
+                dismiss_text: string;
+            };
         }[];
 
         /** URL to an image file that will be displayed inside a message attachment. GIF, JPEG, PNG, or BMP */
