@@ -25,9 +25,11 @@ controller.configureSlackApp({
 });
 
 controller.createOauthEndpoints(app, (err, req, res) => {
-    if (err) return console.log(err);
-    console.log(req);
-    console.log(res);
+    if (err) {
+      res.status(500).send('ERROR: ' + err);
+    } else {
+      res.send('Success!');
+    }
 });
 
 controller.spawn({
