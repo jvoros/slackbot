@@ -3,6 +3,7 @@ export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit
 
     // check message.actions and message.callback_id to see what action to take...
 
+    console.log('------------message below--------------');
     console.log(msg);
 
     bot.replyInteractive(msg, {
