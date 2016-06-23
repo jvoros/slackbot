@@ -78,11 +78,11 @@ export default function route(bot: Botkit.Bot): express.Router {
         bot.say({
             channel: CHANNEL_ID,
             text: `User Requesting Dashboard Access: *${username}*`,
-            callback_id: 'aliemu-dashboardaccess',
-            attachment_type: 'default',
             attachments: [
                 {
                     fallback: `User Requesting Dashboard Access: ${name} <${email}>`,
+                    callback_id: 'aliemu-dashboardaccess',
+                    attachment_type: 'default',
                     fields: [
                         {
                             title: 'Name',
@@ -110,9 +110,6 @@ export default function route(bot: Botkit.Bot): express.Router {
                             short: false,
                         },
                     ],
-                },
-                {
-                    fallback: 'Actions',
                     actions: [
                         {
                             name: 'acknowledge',
