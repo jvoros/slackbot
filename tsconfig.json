@@ -33,7 +33,8 @@
     "files": [
         "index.ts",
         "bot/index.ts",
-        "bot/interactiveCallbacks.ts",
+        "bot/interactiveCallbacks/#aliemu.ts",
+        "bot/interactiveCallbacks/index.ts",
         "routes/aliemu/hooks.ts",
         "routes/aliemu/index.ts",
         "routes/aliemu/messages.ts",

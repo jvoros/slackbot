@@ -1,4 +1,4 @@
-import interactiveCallbacks from './interactiveCallbacks';
+import interactiveCallbacks from './interactiveCallbacks/';
 
 export default function(controller: Botkit.Controller, users: UserList): Botkit.Controller {
     controller.hears([/hello/i, /hi/i, /hey/i], ['direct_mention', 'direct_message'], (bot, message) => {

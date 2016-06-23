@@ -1,13 +1,21 @@
+import * as aliemu from './#aliemu';
 
 export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
     // check message.actions and message.callback_id to see what action to take...
+    let response: Botkit.MessageWithContext;
 
     switch (msg.callback_id) {
         case '1':
             return counter(bot, msg);
+        case 'aliemu-dashboardaccess':
+            response = aliemu.dashboardAccess(bot, msg);
+            break;
+        default:
+            return console.error('=> ERROR: No matching callback ID found.');
     }
 
+    bot.replyInteractive(msg, response);
 }
 
 

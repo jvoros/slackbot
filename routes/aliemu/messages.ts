@@ -78,6 +78,8 @@ export default function route(bot: Botkit.Bot): express.Router {
         bot.say({
             channel: CHANNEL_ID,
             text: `User Requesting Dashboard Access: *${username}*`,
+            callback_id: 'aliemu-dashboardaccess',
+            attachment_type: 'default',
             attachments: [
                 {
                     fallback: `User Requesting Dashboard Access: ${name} <${email}>`,
@@ -106,6 +108,24 @@ export default function route(bot: Botkit.Bot): express.Router {
                             title: 'Bio',
                             value: `${bio}`,
                             short: false,
+                        },
+                    ],
+                },
+                {
+                    fallback: 'Actions',
+                    actions: [
+                        {
+                            name: 'acknowledge',
+                            text: 'Acknowledge',
+                            style: 'primary',
+                            value: 'acknowledge',
+                            type: 'button',
+                            confirm: {
+                                title: 'Are you sure?',
+                                text: 'This will send an email to the submitter saying they have been granted access.',
+                                ok_text: 'Send',
+                                dismiss_text: 'Don\'t send',
+                            },
                         },
                     ],
                 },
