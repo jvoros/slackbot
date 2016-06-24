@@ -25,20 +25,20 @@ declare namespace Botkit {
         identifyBot(): void;
         identifyTeam(): void;
         startPrivateConversation(): void;
-        startConversation(src: Message, callback: ConvoCallback): void;
+        startConversation(src: Message|ActionMessage, callback: ConvoCallback): void;
         send(): void;
         replyInteractive(src: ActionMessage, reply: MessageWithContext): void;
-        replyPublic(src: Message, reply: string|MessageWithContext, callback?: Function): void;
-        replyPublicDelayed(src: Message, reply: string|MessageWithContext, callback?: Function): void;
-        replyPrivate(src: Message, reply: string|MessageWithContext, callback?: Function): void;
-        replyPrivateDelayed(src: Message, reply: string|MessageWithContext, callback?: Function): void;
+        replyPublic(src: Message|ActionMessage, reply: string|MessageWithContext, callback?: Function): void;
+        replyPublicDelayed(src: Message|ActionMessage, reply: string|MessageWithContext, callback?: Function): void;
+        replyPrivate(src: Message|ActionMessage, reply: string|MessageWithContext, callback?: Function): void;
+        replyPrivateDelayed(src: Message|ActionMessage, reply: string|MessageWithContext, callback?: Function): void;
         /**
          * Makes the bot appear as if it is typing.
          * @param message The current message context.
          */
         startTyping(src: Message): void;
         /** Replies with message after typing delay */
-        replyWithTyping(src: Message, reply: string|MessageWithContext, cb?: Function): void;
+        replyWithTyping(src: Message|ActionMessage, reply: string|MessageWithContext, cb?: Function): void;
         findConversation(): void;
         say(msg: MessageWithoutContext, callback?: (err: Error, res: any) => void): void;
 
@@ -48,7 +48,7 @@ declare namespace Botkit {
          * @param reply    String or Object Outgoing response
          * @param callback Optional callback
          */
-        reply(message: Message, reply: string|MessageWithContext, callback?: (Error, Object) => void): void;
+        reply(message: Message|ActionMessage, reply: string|MessageWithContext, callback?: (Error, Object) => void): void;
 
         /** Starts the Slack Realtime Messaging service */
         startRTM(callback: (err: Error, bot: Bot, payload: Slack.RTMPayload) => void): void;

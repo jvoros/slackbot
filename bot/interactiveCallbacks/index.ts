@@ -3,27 +3,32 @@ import * as aliemu from './#aliemu';
 export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
     // check message.actions and message.callback_id to see what action to take...
-    let response: Botkit.MessageWithContext;
 
-    switch (msg.callback_id) {
-        case '1':
-            return counter(bot, msg);
-        case 'aliemu-dashboardaccess':
-            response = aliemu.dashboardAccess(bot, msg);
-            break;
-        default:
-            return console.error('=> ERROR: No matching callback ID found.');
-    }
-
-    bot.replyInteractive(msg, response);
+    new Promise<Botkit.MessageWithContext>((resolve, reject) => {
+        switch (msg.callback_id) {
+            case '1':
+                resolve(counter(msg));
+            case 'aliemu-dashboardaccess':
+                aliemu.dashboardAccess(msg)
+                    .then(response => resolve(response))
+                    .catch((e: string) => reject(e));
+                break;
+            default:
+                reject('No matching callback ID found.');
+        }
+    })
+    .then(response => {
+        bot.replyInteractive(msg, response);
+    })
+    .catch(errorMessage => {
+        bot.reply(msg, errorMessage);
+    });
 }
 
 
-function counter(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
+function counter(msg: Botkit.ActionMessage): Botkit.MessageWithContext {
     if (msg.actions[0].name === 'destroy') {
-        return bot.replyInteractive(msg, {
-            text: 'Counter Destroyed.',
-        });
+        return { text: 'Counter Destroyed.' };
     }
 
     const val = parseInt(msg.actions[0].value);
@@ -32,5 +37,5 @@ function counter(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
         : parseInt(msg.original_message.attachments[0].text);
     msg.original_message.attachments[0].text = `${count + val}`;
 
-    bot.replyInteractive(msg, msg.original_message);
+    return msg.original_message;
 }

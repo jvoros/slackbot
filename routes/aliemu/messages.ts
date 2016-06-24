@@ -91,7 +91,7 @@ export default function route(bot: Botkit.Bot): express.Router {
                         },
                         {
                             title: 'Email Address',
-                            value: `<mailto:${email}|${email}>`,
+                            value: `${email}`,
                             short: false,
                         },
                         {
@@ -112,16 +112,29 @@ export default function route(bot: Botkit.Bot): express.Router {
                     ],
                     actions: [
                         {
-                            name: 'acknowledge',
-                            text: 'Acknowledge',
+                            name: 'approve',
+                            value: 'approve',
+                            text: 'Grant Access',
                             style: 'primary',
-                            value: 'acknowledge',
                             type: 'button',
                             confirm: {
                                 title: 'Are you sure?',
-                                text: 'This will send an email to the submitter saying they have been granted access.',
-                                ok_text: 'Send',
-                                dismiss_text: 'Don\'t send',
+                                text: 'This will send an email to the user saying they have been granted access.',
+                                ok_text: 'Send Approval Email',
+                                dismiss_text: 'Don\'t Send',
+                            },
+                        },
+                        {
+                            name: 'deny',
+                            value: 'deny',
+                            text: 'Deny Access',
+                            style: 'danger',
+                            type: 'button',
+                            confirm: {
+                                title: 'Are you sure?',
+                                text: 'This will send an email to the user saying they have been denied access.',
+                                ok_text: 'Send Rejection Email',
+                                dismiss_text: 'Don\'t Send',
                             },
                         },
                     ],

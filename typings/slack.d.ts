@@ -210,14 +210,6 @@ declare namespace Slack {
         has_2fa?: boolean;
     }
 
-    // interface Message {
-    //     text?: string;
-    //     username?: string;
-    //     /** Parse markdown? */
-    //     mrkdwn?: boolean;
-    //     attachments?: Attachment[];
-    // }
-
     interface Attachment {
         /** Required plain-text summary of the attachment */
         fallback?: string;
