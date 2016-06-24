@@ -1,10 +1,11 @@
 import * as express from 'express';
+import { requireAuthentication } from '../../helpers/authentication';
 const router = express.Router();
 const CHANNEL_ID = 'C09762GTV'; // #aliemu
 
 export default function route(bot: Botkit.Bot): express.Router {
 
-    router.post('/contact-form', (req, res) => {
+    router.post('/contact-form', requireAuthentication, (req, res) => {
         const { name, email, message } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !email || !message) return res.sendStatus(400);
         bot.say({
@@ -38,7 +39,7 @@ export default function route(bot: Botkit.Bot): express.Router {
         });
     });
 
-    router.post('/comments', (req, res) => {
+    router.post('/comments', requireAuthentication, (req, res) => {
         const { name, email, content, postUrl, postName } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !email || !content || !postUrl || !postName) return res.sendStatus(400);
         bot.say({
@@ -72,7 +73,7 @@ export default function route(bot: Botkit.Bot): express.Router {
         });
     });
 
-    router.post('/dashboard-access', (req, res) => {
+    router.post('/dashboard-access', requireAuthentication, (req, res) => {
         const { name, username, email, program, role, bio } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
         if (!name || !username || !email || !program || !role) return res.sendStatus(400);
         bot.say({

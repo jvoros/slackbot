@@ -40,6 +40,7 @@
         "routes/index.ts",
         "routes/newsubmissions/hooks.ts",
         "routes/newsubmissions/index.ts",
+        "helpers/authentication.ts",
         "helpers/constants/templateNames.ts",
         "helpers/email.ts",
         "typings/aliem.d.ts",

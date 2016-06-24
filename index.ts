@@ -1,3 +1,4 @@
+if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import routes from './routes';
@@ -11,12 +12,12 @@ const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const CHANNELS = {};
 const USERS = {};
 
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: false}));
+
 const controller: Botkit.Controller = Botkit.slackbot({
     debug: false,
 });
-
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
 
 controller.configureSlackApp({
     clientId: CLIENT_ID,
