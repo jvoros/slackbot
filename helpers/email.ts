@@ -8,8 +8,8 @@ export function fromTemplate(templateName: string, recipient: string): Promise<n
         .then(template => {
             const mail = new helper.Mail(
                 new helper.Email('admin@aliemu.com'),
-                new helper.Email(recipient),
                 template.subject,
+                new helper.Email(recipient),
                 new helper.Content('text/html', template.html_content)
             );
             const request = sg.emptyRequest();
@@ -20,7 +20,8 @@ export function fromTemplate(templateName: string, recipient: string): Promise<n
                 if (res.statusCode !== 202) reject({code: res.statusCode, message: 'Email failed to send'});
                 resolve(res.statusCode);
             });
-        });
+        })
+        .catch(e => reject(e));
     });
 }
 
