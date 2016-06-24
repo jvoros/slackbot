@@ -3,14 +3,15 @@ import { aliemu as templates } from '../../helpers/constants/templateNames';
 
 export function dashboardAccess(msg: Botkit.ActionMessage): Promise<Botkit.MessageWithContext> {
     return new Promise<Botkit.MessageWithContext>((resolve, reject) => {
-        const recipientEmail = msg.original_message.attachments[0].fields.find(field => field.title === 'Email Address').value;
-        if (!recipientEmail) reject({code: 404, message: 'Recipient email address could not be identified.'});
+        const emailField = msg.original_message.attachments[0].fields.find(field => field.title === 'Email Address');
+        if (!emailField) reject({code: 404, message: 'Recipient email address could not be identified.'});
+        const recipientEmail = emailField.value.split('|')[1];
 
         switch (msg.actions[0].name) {
             case 'approve': {
                 email.fromTemplate(templates.educator_dashboard_approved, recipientEmail)
                     .then(status => {
-                        console.log('=> Educator Dashboard approval email sent successfully.');
+                        console.log(`(${status}) => Educator Dashboard approval email sent successfully.`);
                         resolve(emailSuccessful(msg, 'Educator Dashboard approval email sent successfully.'));
                     })
                     .catch((e: {code: number, message: string}) => {
