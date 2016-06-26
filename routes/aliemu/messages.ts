@@ -74,8 +74,8 @@ export default function route(bot: Botkit.Bot): express.Router {
     });
 
     router.post('/dashboard-access', requireAuthentication, (req, res) => {
-        const { name, username, email, program, role, bio } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
-        if (!name || !username || !email || !program || !role) return res.sendStatus(400);
+        const { id, name, username, email, program, role, bio } = JSON.parse(req.body.data.replace(/\r\n/g, '\\n'));
+        if (!id || !name || !username || !email || !program || !role) return res.sendStatus(400);
         bot.say({
             channel: CHANNEL_ID,
             text: `User Requesting Dashboard Access: *${username}*`,
@@ -85,6 +85,11 @@ export default function route(bot: Botkit.Bot): express.Router {
                     callback_id: 'aliemu-dashboardaccess',
                     attachment_type: 'default',
                     fields: [
+                        {
+                            title: 'ID',
+                            value: `${id}`,
+                            short: false,
+                        },
                         {
                             title: 'Name',
                             value: `${name}`,
