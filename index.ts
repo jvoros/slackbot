@@ -9,6 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 5000;
 const CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
+const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
 const CHANNELS = {};
 const USERS = {};
 
@@ -29,14 +30,24 @@ controller
     .createWebhookEndpoints(app)
     .createOauthEndpoints(app, (err, req, res) => {
         if (err) return res.status(500).send('ERROR: ' + err);
-        console.log(req);
         res.send('Success!');
         controller.storage.teams.all((e, r) => {
             if (e) return console.error(`=> ERROR: ${e}`);
-            console.log(r);
             initSlackbot(r[Object.keys(r)[0]].token);
         });
     });
+
+try {
+    initSlackbot(SLACKBOT_TOKEN);
+}
+catch (e) {
+    console.log('=> ERROR: Unable to authenticate with cached SLACKBOT_TOKEN. Please reauthorize.');
+}
+
+app.listen(PORT, () => {
+    console.log(`Server listening on port ${PORT}`);
+});
+
 
 function initSlackbot(token) {
     controller
@@ -59,7 +70,3 @@ function initSlackbot(token) {
             });
         });
 }
-
-app.listen(PORT, () => {
-    console.log(`Server listening on port ${PORT}`);
-});
