@@ -1,1 +1,1 @@
-web: npm run deploy && npm run heroku 
+web: npm run build && npm run heroku 

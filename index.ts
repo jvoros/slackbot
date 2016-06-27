@@ -29,9 +29,11 @@ controller
     .createWebhookEndpoints(app)
     .createOauthEndpoints(app, (err, req, res) => {
         if (err) return res.status(500).send('ERROR: ' + err);
+        console.log(req);
         res.send('Success!');
         controller.storage.teams.all((e, r) => {
             if (e) return console.error(`=> ERROR: ${e}`);
+            console.log(r);
             initSlackbot(r[Object.keys(r)[0]].token);
         });
     });
@@ -41,7 +43,6 @@ function initSlackbot(token) {
         .spawn({ token })
         .startRTM((err, bot, payload) => {
             if (err) return console.error(err);
-
             payload.channels
                 .filter(c => !c.is_archived)
                 .forEach(c => CHANNELS[c.name] = c);

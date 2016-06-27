@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "heroku": "pm2 start --no-daemon process.yml",
-    "deploy": "./node_modules/.bin/tsc -p ."
+    "dev": "npm run build && node ./dist/index.js",
+    "build": "./node_modules/.bin/tsc -p ."
   },
   "repository": {
     "type": "git",
