@@ -46,11 +46,13 @@ controller.on('create_bot', (bot, team) => {
 controller.storage.teams.all((e, teams) => {
     if (e) return console.error(`=> ERROR: ${e}`);
 
-    for (let team of teams) {
-        if (!team.bot) continue;
-        const spawned = controller.spawn(team);
-        initSlackbot(spawned);
-    }
+    console.log(teams);
+    return;
+    // for (let team of teams) {
+    //     if (!team.bot) continue;
+    //     const spawned = controller.spawn(team);
+    //     initSlackbot(spawned);
+    // }
 });
 
 function initSlackbot(BOT: Botkit.Bot) {
