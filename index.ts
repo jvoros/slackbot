@@ -12,6 +12,7 @@ const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
 const CHANNELS = {};
 const USERS = {};
+const BOTS_RUNNING = {};
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
@@ -31,42 +32,47 @@ controller
     .createOauthEndpoints(app, (err, req, res) => {
         if (err) return res.status(500).send('ERROR: ' + err);
         res.send('Success!');
-        controller.storage.teams.all((e, r) => {
-            if (e) return console.error(`=> ERROR: ${e}`);
-            initSlackbot(r[Object.keys(r)[0]].token);
-        });
     });
-
-try {
-    initSlackbot(SLACKBOT_TOKEN);
-}
-catch (e) {
-    console.log('=> ERROR: Unable to authenticate with cached SLACKBOT_TOKEN. Please reauthorize.');
-}
 
 app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
+controller.on('create_bot', (bot, team) => {
+    if (BOTS_RUNNING[bot.config.token]) return console.log('=> NOTICE: Bot already online! Exiting...');
+    initSlackbot(bot);
+});
 
-function initSlackbot(token) {
-    controller
-        .spawn({ token })
-        .startRTM((err, bot, payload) => {
-            if (err) return console.error(err);
-            payload.channels
-                .filter(c => !c.is_archived)
-                .forEach(c => CHANNELS[c.name] = c);
+controller.storage.teams.all((e, teams) => {
+    if (e) return console.error(`=> ERROR: ${e}`);
 
-            payload.users
-                .filter(u => !u.deleted)
-                .forEach(u => USERS[u.id] = u);
+    for (let team of teams) {
+        if (!team.bot) continue;
+        const spawned = controller.spawn(team);
+        initSlackbot(spawned);
+    }
+});
 
-            app.use('/', routes(bot));
-            rootController(controller, USERS);
+function initSlackbot(BOT: Botkit.Bot) {
+    BOT
+    .startRTM((err, bot, payload) => {
+        if (err) return console.error(err);
 
-            app.get('*', (req, res) => {
-                res.send('Invalid Endpoint');
-            });
+        BOTS_RUNNING[bot.config.token] = bot;
+
+        payload.channels
+            .filter(c => !c.is_archived)
+            .forEach(c => CHANNELS[c.name] = c);
+
+        payload.users
+            .filter(u => !u.deleted)
+            .forEach(u => USERS[u.id] = u);
+
+        app.use('/', routes(bot));
+        rootController(controller, USERS);
+
+        app.get('*', (req, res) => {
+            res.send('Invalid Endpoint');
         });
+    });
 }
