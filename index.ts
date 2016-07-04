@@ -3,22 +3,26 @@ import * as express from 'express';
 import * as bodyParser from 'body-parser';
 import routes from './routes';
 import rootController from './bot';
-const Botkit = require('botkit');
-const app = express();
 
 const PORT = process.env.PORT || 5000;
 const CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/slackbot';
+const BOTS_RUNNING = {};
 const CHANNELS = {};
 const USERS = {};
-const BOTS_RUNNING = {};
+
+const Botkit = require('botkit');
+const Store = require('botkit-storage-mongo')({mongoUri: MONGODB_URI});
+const app = express();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
 
 const controller: Botkit.Controller = Botkit.slackbot({
     debug: false,
+    storage: Store,
 });
 
 controller.configureSlackApp({
@@ -38,29 +42,41 @@ app.listen(PORT, () => {
     console.log(`Server listening on port ${PORT}`);
 });
 
-controller.on('create_bot', (bot, team) => {
-    if (BOTS_RUNNING[bot.config.token]) return console.log('=> NOTICE: Bot already online! Exiting...');
-    initSlackbot(bot);
+controller.storage.teams.all((err, teams) => {
+  console.log(teams);
+  if (err) throw new Error(err);
+
+  // connect all teams with bots up to slack!
+  for (let team of teams) {
+    if (team.bot) {
+      const bot = controller.spawn(team);
+      initSlackbot(bot);
+    }
+  }
 });
 
-controller.storage.teams.all((e, teams) => {
-    if (e) return console.error(`=> ERROR: ${e}`);
-
-    console.log(teams);
-    return;
-    // for (let team of teams) {
-    //     if (!team.bot) continue;
-    //     const spawned = controller.spawn(team);
-    //     initSlackbot(spawned);
-    // }
+controller.on('create_bot', (bot: Botkit.Bot, teamConfig) => {
+    if (BOTS_RUNNING[bot.config.token]) return console.log('=> Bot already running!');
+    initSlackbot(bot, teamConfig);
 });
 
-function initSlackbot(BOT: Botkit.Bot) {
+
+function initSlackbot(BOT: Botkit.Bot, team?) {
     BOT
     .startRTM((err, bot, payload) => {
         if (err) return console.error(err);
 
-        BOTS_RUNNING[bot.config.token] = bot;
+        trackBot(bot);
+        if (team) {
+            controller.saveTeam(team, (e, id) => {
+                if (e) {
+                    console.log('Error saving team');
+                }
+                else {
+                    console.log(`Team ${team.name} saved`);
+                }
+            });
+        }
 
         payload.channels
             .filter(c => !c.is_archived)
@@ -77,4 +93,8 @@ function initSlackbot(BOT: Botkit.Bot) {
             res.send('Invalid Endpoint');
         });
     });
+}
+
+function trackBot(bot: Botkit.Bot): void {
+    BOTS_RUNNING[bot.config.token] = bot;
 }

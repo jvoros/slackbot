@@ -139,7 +139,7 @@ declare namespace Botkit {
         hears_test(): any;
         on(a: any, b: any): any;
         receiveMessage(): any;
-        saveTeam(): any;
+        saveTeam(teamConfig, callback: (err, id) => void): any;
         setupWebserver(): any;
         shutdown(): any;
         spawn(): any;
