@@ -50,6 +50,7 @@
         "helpers/constants/templateNames.ts",
         "helpers/email.ts",
         "helpers/REST/aliemu.ts",
+        "helpers/sharedHandlers.ts",
         "typings/aliem.d.ts",
         "typings/botkit.d.ts",
         "typings/sendgrid.d.ts",
