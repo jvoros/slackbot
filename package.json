@@ -33,6 +33,7 @@
     "body-parser": "^1.15.2",
     "botkit": "^0.2.2",
     "botkit-storage-mongo": "^1.0.3",
+    "botkit-storage-mongo-updated": "^1.0.4",
     "express": "^4.14.0",
     "mongodb": "^2.2.0",
     "pm2": "^1.1.3",

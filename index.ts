@@ -14,7 +14,7 @@ const CHANNELS = {};
 const USERS = {};
 
 const Botkit = require('botkit');
-const Store = require('botkit-storage-mongo')({mongoUri: MONGODB_URI});
+const Store = require('botkit-storage-mongo-updated')({mongoUri: MONGODB_URI});
 const app = express();
 
 app.use(bodyParser.json());
