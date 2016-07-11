@@ -8,7 +8,7 @@ const PORT = process.env.PORT || 5000;
 const CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
 const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
-const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/slackbot';
+const MONGODB_URI = process.env.MONGODB_URI;
 const BOTS_RUNNING = {};
 const CHANNELS = {};
 const USERS = {};
@@ -43,7 +43,6 @@ app.listen(PORT, () => {
 });
 
 controller.storage.teams.all((err, teams) => {
-  console.log(teams);
   if (err) throw new Error(err);
 
   // connect all teams with bots up to slack!
