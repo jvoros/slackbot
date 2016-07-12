@@ -3,8 +3,6 @@ import * as aliemu from './#aliemu';
 export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
     // check message.actions and message.callback_id to see what action to take...
-    console.log('==========TESTING');
-
     new Promise<Botkit.MessageWithContext>((resolve, reject) => {
         switch (msg.callback_id) {
             case '1':

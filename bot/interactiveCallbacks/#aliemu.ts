@@ -9,8 +9,6 @@ export function dashboardAccess(msg: Botkit.ActionMessage): Promise<Botkit.Messa
         const recipientEmail = emailField.value.split('|')[1];
         const userID = msg.original_message.attachments[0].fields.find(f => f.title === 'ID').value;
 
-        console.log('DASHBOARD ACCESS FUNCTION');
-
         switch (msg.actions[0].name) {
             case 'approve': {
                 email.fromTemplate(templates.educator_dashboard_approved, recipientEmail)
