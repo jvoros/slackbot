@@ -18,7 +18,6 @@
     },
     "filesGlob": [
         "index.ts",
-        "test.ts",
         "{bot,routes,helpers}/**/*.ts",
         "typings/*.d.ts",
         "node_modules/@types/**/*index.d.ts"
@@ -30,7 +29,6 @@
     },
     "files": [
         "index.ts",
-        "test.ts",
         "bot/index.ts",
         "bot/interactiveCallbacks/#aliemu.ts",
         "bot/interactiveCallbacks/index.ts",
