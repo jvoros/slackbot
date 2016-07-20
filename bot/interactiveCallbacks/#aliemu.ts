@@ -8,11 +8,16 @@ export async function dashboardAccess(msg: Botkit.ActionMessage): Promise<Botkit
     const recipientEmail = emailField.value.split('|')[1];
     const userID = msg.original_message.attachments[0].fields.find(f => f.title === 'ID').value;
 
+    // FIXME
+    console.log('HIT BEFORE SWITCH IN DASHBOARD ACCESS FUNCTION');
+
     switch (msg.actions[0].name) {
         case 'approve': {
             try {
                 await REST.update.user(userID, { roles: ['educator_access'] });
                 await email.fromTemplate(templates.educator_dashboard_approved, recipientEmail);
+                // FIXME
+                console.log('HIT APPROVAL JUST BEFORE RETURN');
                 return success(msg, {
                     fallback: 'Access granted and email sent.',
                     title: ':white_check_mark: Educator Dashboard access granted.',

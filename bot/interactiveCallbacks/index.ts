@@ -10,6 +10,8 @@ export default async function interactiveMessageCallbacks(bot: Botkit.Bot, msg: 
                 response = counter(msg);
                 break;
             case 'aliemu-dashboardaccess':
+                // FIXME
+                console.log('HIT CASE')
                 response = await aliemu.dashboardAccess(msg);
                 break;
             default:
