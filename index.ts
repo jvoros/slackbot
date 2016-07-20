@@ -18,7 +18,7 @@ const Store = require('botkit-storage-mongo-updated')({mongoUri: MONGODB_URI});
 const app = express();
 
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: false}));
+app.use(bodyParser.urlencoded({ extended: false }));
 
 const controller: Botkit.Controller = Botkit.slackbot({
     debug: false,
@@ -43,7 +43,7 @@ app.listen(PORT, () => {
 });
 
 controller.storage.teams.all((err, teams) => {
-  if (err) throw new Error(err);
+  if (err) throw err;
 
   // connect all teams with bots up to slack!
   for (let team of teams) {

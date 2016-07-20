@@ -3,3 +3,4 @@ data
 .env
 dist
 npm-debug.log
+test.ts

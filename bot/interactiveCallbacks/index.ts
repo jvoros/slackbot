@@ -1,27 +1,28 @@
 import * as aliemu from './#aliemu';
 
-export default function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
+export default async function interactiveMessageCallbacks(bot: Botkit.Bot, msg: Botkit.ActionMessage) {
 
-    // check message.actions and message.callback_id to see what action to take...
-    new Promise<Botkit.MessageWithContext>((resolve, reject) => {
+    let response: Botkit.MessageWithContext;
+
+    try {
         switch (msg.callback_id) {
             case '1':
-                resolve(counter(msg));
+                response = counter(msg);
+                break;
             case 'aliemu-dashboardaccess':
-                aliemu.dashboardAccess(msg)
-                    .then(response => resolve(response))
-                    .catch((e: string) => reject(e));
+                response = await aliemu.dashboardAccess(msg);
                 break;
             default:
-                reject('No matching callback ID found.');
+                throw { code: 500, message: 'No matching callback ID found.' }
         }
-    })
-    .then(response => {
-        bot.replyInteractive(msg, response);
-    })
-    .catch(errorMessage => {
-        bot.reply(msg, errorMessage);
-    });
+    }
+    catch (e) {
+        console.error(`=> ERROR (${e.code}): ${e.message}`);
+        bot.reply(msg, `ERROR (${e.code}): ${e.message}`);
+        return;
+    }
+
+    bot.replyInteractive(msg, response);
 }
 
 

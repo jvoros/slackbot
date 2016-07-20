@@ -14,7 +14,7 @@ export namespace get {
             .headers(HEADERS)
             .query('context=edit')
             .end(res => {
-                if (res.error) reject(console.error(res.error));
+                if (res.error) reject({code: 500, message: 'Could not retrieve user.'});
                 resolve(res.body);
             });
         });
@@ -29,15 +29,15 @@ export namespace update {
         'content-type': 'application/json',
     };
 
-    export function user(userID: string|number, data: WordPress.User): Promise<WordPress.User> {
+    export function user(userID: string|number, data: WordPress.User): Promise<number> {
         return new Promise<WordPress.User>((resolve, reject) => {
             unirest.post(`https://www.aliemu.com/wp-json/wp/v2/users/${userID}`)
             .headers(HEADERS)
             .type('json')
             .send(data)
             .end(res => {
-                if (res.error) reject(console.error(res.error));
-                resolve(res.body);
+                if (res.error) reject({code: 500, message: 'Updating user in database failed.'});
+                resolve(200);
             });
         });
     }

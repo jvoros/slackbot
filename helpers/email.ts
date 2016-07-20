@@ -21,7 +21,7 @@ export function fromTemplate(templateName: string, recipient: string): Promise<n
                 resolve(res.statusCode);
             });
         })
-        .catch(e => reject(e));
+        .catch((e: BotError) => reject(e));
     });
 }
 
