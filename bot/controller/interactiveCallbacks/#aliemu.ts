@@ -1,6 +1,6 @@
-import * as email from '../../helpers/email';
-import { aliemu as templates } from '../../helpers/constants/templateNames';
-import * as REST from '../../helpers/REST/aliemu';
+import * as email from 'helpers/email';
+import { aliemu as templates } from 'helpers/constants/templateNames';
+import * as REST from 'helpers/REST/aliemu';
 
 export async function dashboardAccess(msg: Botkit.ActionMessage): Promise<Botkit.MessageWithContext> {
     const emailField = msg.original_message.attachments[0].fields.find(field => field.title === 'Email Address');

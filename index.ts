@@ -1,13 +1,14 @@
 if (process.env.NODE_ENV !== 'production') require('dotenv').config();
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import routes from './routes';
-import rootController from './bot';
+import routes from './bot/routes/';
+import rootController from './bot/controller/';
 
 const PORT = process.env.PORT || 5000;
 const CLIENT_ID = process.env.SLACK_CLIENT_ID;
 const CLIENT_SECRET = process.env.SLACK_CLIENT_SECRET;
-const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
+/* FIXME: Probably can delete this */
+// const SLACKBOT_TOKEN = process.env.SLACKBOT_TOKEN;
 const MONGODB_URI = process.env.MONGODB_URI;
 const BOTS_RUNNING = {};
 const CHANNELS = {};

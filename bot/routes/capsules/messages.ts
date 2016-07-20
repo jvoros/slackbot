@@ -1,6 +1,6 @@
 import * as express from 'express';
-import { requireAuthentication } from '../../helpers/authentication';
-import { wordpressComment } from '../../helpers/sharedHandlers';
+import { requireAuthentication } from 'helpers/authentication';
+import { wordpressComment } from 'helpers/sharedHandlers';
 const router = express.Router();
 const CHANNEL_ID = 'C0K6854UT'; // #capsules
 
