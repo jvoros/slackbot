@@ -4,6 +4,9 @@ export default async function interactiveMessageCallbacks(bot: Botkit.Bot, msg: 
 
     let response: Botkit.MessageWithContext;
 
+    // FIXME
+    console.log('HIT INTERACTIVE MESSAGE CALLBACK');
+
     try {
         switch (msg.callback_id) {
             case '1':
