@@ -4,17 +4,12 @@ export default async function interactiveMessageCallbacks(bot: Botkit.Bot, msg: 
 
     let response: Botkit.MessageWithContext;
 
-    // FIXME
-    console.log('HIT INTERACTIVE MESSAGE CALLBACK');
-
     try {
         switch (msg.callback_id) {
             case '1':
                 response = counter(msg);
                 break;
             case 'aliemu-dashboardaccess':
-                // FIXME
-                console.log('HIT CASE')
                 response = await aliemu.dashboardAccess(msg);
                 break;
             default:
