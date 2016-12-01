@@ -41,8 +41,6 @@
         "routes/airseries-pro/messages.ts",
         "routes/airseries/index.ts",
         "routes/airseries/messages.ts",
-        "routes/aliemcards/index.ts",
-        "routes/aliemcards/messages.ts",
         "routes/aliemu/hooks.ts",
         "routes/aliemu/index.ts",
         "routes/aliemu/messages.ts",
@@ -55,6 +53,12 @@
         "typings/botkit.d.ts",
         "typings/sendgrid.d.ts",
         "typings/slack.d.ts",
-        "typings/wordpress.d.ts"
+        "typings/wordpress.d.ts",
+        "node_modules/@types/body-parser/index.d.ts",
+        "node_modules/@types/express-serve-static-core/index.d.ts",
+        "node_modules/@types/express/index.d.ts",
+        "node_modules/@types/mime/index.d.ts",
+        "node_modules/@types/node/index.d.ts",
+        "node_modules/@types/serve-static/index.d.ts"
     ]
 }
